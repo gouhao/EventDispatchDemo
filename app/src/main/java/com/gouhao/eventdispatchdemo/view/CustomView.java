@@ -18,7 +18,7 @@ import com.gouhao.eventdispatchdemo.util.MotionEventUtils;
 public class CustomView extends View {
     private static final String TAG = CustomView.class.getSimpleName();
     private Paint paint;
-
+    private float lastX, lastY;
     public CustomView(Context context) {
         this(context, null);
     }
@@ -41,6 +41,27 @@ public class CustomView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         Log.d(TAG, "onTouchEvent: " + MotionEventUtils.getActionName(event));
+        int action = event.getAction() & MotionEvent.ACTION_MASK;
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                lastX = event.getX();
+                lastY = event.getY();
+                getParent().requestDisallowInterceptTouchEvent(true);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if(canIntercept(event)) {
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                } else {
+                    getParent().requestDisallowInterceptTouchEvent(false);
+                }
+                break;
+        }
         return super.onTouchEvent(event);
+    }
+
+    private boolean canIntercept(MotionEvent ev) {
+        float newX = ev.getX();
+        float newY = ev.getY();
+        return Math.abs(newX - lastX) < Math.abs(newY - lastY);
     }
 }

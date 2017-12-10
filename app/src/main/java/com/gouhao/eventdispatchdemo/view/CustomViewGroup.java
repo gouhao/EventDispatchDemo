@@ -27,6 +27,7 @@ public class CustomViewGroup extends ViewGroup {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(0xff000000);
         paint.setTextSize(40);
+        setClickable(true);
     }
 
     @Override
@@ -41,24 +42,33 @@ public class CustomViewGroup extends ViewGroup {
         canvas.drawText("CustomViewGroup", 0, 30, paint);
     }
     private float lastX, lastY;
+//    @Override
+//    public boolean onInterceptTouchEvent(MotionEvent ev) {
+//        Log.d(TAG, "onInterceptTouchEvent: " + MotionEventUtils.getActionName(ev));
+//        int action = ev.getAction() & MotionEvent.ACTION_MASK;
+//        switch (action) {
+//            case MotionEvent.ACTION_DOWN:
+//                lastX = ev.getX();
+//                lastY = ev.getY();
+//                return false;
+//            case MotionEvent.ACTION_MOVE:
+//                return canIntercept(ev);
+//            case MotionEvent.ACTION_UP:
+//                return false;
+//            default:
+//                return super.onInterceptTouchEvent(ev);
+//        }
+//    }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         Log.d(TAG, "onInterceptTouchEvent: " + MotionEventUtils.getActionName(ev));
         int action = ev.getAction() & MotionEvent.ACTION_MASK;
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                lastX = ev.getX();
-                lastY = ev.getY();
-                return false;
-            case MotionEvent.ACTION_MOVE:
-                return canIntercept(ev);
-            case MotionEvent.ACTION_UP:
-                return false;
-            default:
-                return super.onInterceptTouchEvent(ev);
+        if(action == MotionEvent.ACTION_DOWN) {
+            return false;
         }
+        return true;
     }
-
     private boolean canIntercept(MotionEvent ev) {
         float newX = ev.getX();
         float newY = ev.getY();
