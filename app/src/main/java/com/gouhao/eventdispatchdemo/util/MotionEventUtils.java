@@ -18,6 +18,10 @@ public class MotionEventUtils {
                 return "ACTION_UP";
             case MotionEvent.ACTION_CANCEL:
                 return "ACTION_CANCEL";
+            case MotionEvent.ACTION_POINTER_DOWN:
+                return "ACTION_POINTER_DOWN";
+            case MotionEvent.ACTION_POINTER_UP:
+                return "ACTION_POINTER_UP";
             default:
                 return "ACTION: " + action;
         }

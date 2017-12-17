@@ -4,10 +4,15 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="100dp"
+    android:padding="40dp"
     android:background="#f00">
-    <com.gouhao.eventdispatchdemo.view.CustomView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#0f0"/>
+    <com.gouhao.eventdispatchdemo.view.CustomView1
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="#0f0"
+        android:layout_marginBottom="10dp"/>
+    <com.gouhao.eventdispatchdemo.view.CustomView2
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="#00f"/>
 </com.gouhao.eventdispatchdemo.view.CustomViewGroup>

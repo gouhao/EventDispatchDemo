@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.gouhao.eventdispatchdemo.util.MotionEventUtils;
@@ -32,8 +33,15 @@ public class CustomViewGroup extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        getChildAt(0).layout(l + getPaddingLeft(), t + getPaddingTop(),
-                r - getPaddingRight(), b - getPaddingBottom());
+        int childCount = getChildCount();
+        int left = l + getPaddingLeft();
+        int top = t + getPaddingTop();
+
+        for(int i = 0; i < childCount; i++) {
+            View child = getChildAt(i);
+            child.layout(left, top, left + child.getMeasuredWidth(), top + child.getMeasuredHeight());
+            top += child.getHeight() + 20;
+        }
     }
 
     @Override
@@ -60,15 +68,15 @@ public class CustomViewGroup extends ViewGroup {
 //        }
 //    }
 
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        Log.d(TAG, "onInterceptTouchEvent: " + MotionEventUtils.getActionName(ev));
-        int action = ev.getAction() & MotionEvent.ACTION_MASK;
-        if(action == MotionEvent.ACTION_DOWN) {
-            return false;
-        }
-        return true;
-    }
+//    @Override
+//    public boolean onInterceptTouchEvent(MotionEvent ev) {
+//        Log.d(TAG, "onInterceptTouchEvent: " + MotionEventUtils.getActionName(ev));
+//        int action = ev.getAction() & MotionEvent.ACTION_MASK;
+//        if(action == MotionEvent.ACTION_DOWN) {
+//            return false;
+//        }
+//        return true;
+//    }
     private boolean canIntercept(MotionEvent ev) {
         float newX = ev.getX();
         float newY = ev.getY();
@@ -79,5 +87,11 @@ public class CustomViewGroup extends ViewGroup {
     public boolean onTouchEvent(MotionEvent event) {
         Log.d(TAG, "onTouchEvent: " + MotionEventUtils.getActionName(event));
         return super.onTouchEvent(event);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        measureChildren(widthMeasureSpec, heightMeasureSpec);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 }
