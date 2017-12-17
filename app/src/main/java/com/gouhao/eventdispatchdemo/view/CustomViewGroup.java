@@ -39,8 +39,9 @@ public class CustomViewGroup extends ViewGroup {
 
         for(int i = 0; i < childCount; i++) {
             View child = getChildAt(i);
+            MarginLayoutParams layoutParams = (MarginLayoutParams) child.getLayoutParams();
             child.layout(left, top, left + child.getMeasuredWidth(), top + child.getMeasuredHeight());
-            top += child.getHeight() + 20;
+            top += child.getHeight() + layoutParams.bottomMargin;
         }
     }
 
@@ -93,5 +94,10 @@ public class CustomViewGroup extends ViewGroup {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         measureChildren(widthMeasureSpec, heightMeasureSpec);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
+    public LayoutParams generateLayoutParams(AttributeSet attrs) {
+        return new MarginLayoutParams(getContext(), attrs);
     }
 }
